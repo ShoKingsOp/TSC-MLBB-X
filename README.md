@@ -35,6 +35,22 @@ TSC MLBB X is a tool developed to help you achieve all the existing and upcoming
   <li>Error accessing available tools - The app now has a verified and non-verified membership system, if you can't access a specific tool, it means that your account is currently not verified by the developer</li>
 </ul>
 
+# What's New in Version 3.4
+<ul>
+<li>Full server reset and migration</li>
+<li>Fixed major bugs of the app</li>
+<li>Added installation code identifier on app startup</li>
+<li>Added more security features</li>
+<li>Updated membership feature, now only supports google mail signup</li>
+<li>Enabled one account per device feature</li>
+<li>Re-designed app notices</li>
+<li>Added background notification</li>
+<li>Added amazon drop slider on dashboard</li>
+<li>Enabled reset amazon account feature</li>
+<li>Added fraud users list</li>
+<li>Added TSC Support</li>
+</ul>
+
 # What's New in Version 3.3
 <ul>
 <li>Database reset for the sudden limit reached problem</li>
