@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            position: absolute;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+        }
+        .main-form{
+            width:250px;
+            height:250px;
+            background: #003277dc;
+            border-radius: 5px;
+            position: relative;
+            display: flex;
+            flex-wrap: nowrap;
+            flex-direction: column;
+            border: 3px solid rgb(140, 208, 247);
+            align-items: center;
+            padding-top: 20px;
+        }
+        .from-btmn{
+            width:80px;
+            height:80px;
+            position: relative;
+            background: url('https://i.imgur.com/kxfJPfG.png');
+            bottom: -15px;
+            left: 2%;
+            transform: translateX(-2%);
+            position: absolute;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+        .main-form::before{
+            content: '';
+            background: url('https://scontent.fceb1-1.fna.fbcdn.net/v/t1.0-9/p960x960/96953689_112264480488331_6445784096319733760_o.jpg?_nc_cat=110&_nc_sid=85a577&_nc_eui2=AeHMm64y-g4CPei0eKcpt5NG7iwBoqOYVBruLAGio5hUGnl-0ceo5OvfCoQNTxtz1O2VhpOTKgVgAorJA581XkK9&_nc_ohc=IhpJkCLVc4kAX_3cgko&_nc_ht=scontent.fceb1-1.fna&_nc_tp=6&oh=2ec209d207b746dcc41884c8b1d7ea15&oe=5F085204');
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            top:0;
+            left:0;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: -1;
+        }
+        .header-title{
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-size: 12px;
+            color:rgba(255, 255, 255, 0.377);
+        }
+        button{
+            cursor: pointer;
+            border:0;
+            color: white;
+            height:25px;
+            outline:none;
+            font-size: 9px;
+            border-radius: 2px;
+            margin: 5px;
+            transition: all 0.5s;
+        }
+        .btnIncDec:hover{
+            background-color: white;
+            color: dodgerblue;
+        }
+
+        #logout{
+            background: rgb(255, 41, 41);
+            
+        }
+        #logout:hover{
+            color: rgb(255, 41, 41);
+            background: white;
+        }
+        #claim:hover{
+            color: #FDAA1E;
+            background: white;
+        }
+        #claim{
+            background: #FDAA1E;
+        }
+        .amazoninp{
+            background:#084aa7;
+            border:0;
+            height:15px;
+            border-radius: 3px;
+            padding:5px;
+            color:white;
+            text-align: center;
+        }
+        .amazoninp::placeholder{
+            color: rgba(255, 255, 255, 0.212);
+        }
+        .drop{
+            display: inline-flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 5px;
+            align-items: center;
+        }
+        .dropnum{
+            text-align: center;
+        }
+        .dropnum::-webkit-inner-spin-button,::-webkit-outer-spin-button{
+            -webkit-appearance: none;
+        }
+        .btnIncDec{
+            width:30px;
+            background: dodgerblue;
+            font-size: 16px;
+            text-align: center;
+        }
+        #status{
+            color: white;
+            font-size: 10px;
+            margin: 5px 0 5px 0;
+        }
+        .mtop{
+            margin-top: 5px;
+        }
+    </style>
+</head>
+    <div class="container">
+    <div class="main-form">
+        
+        <div class="from-btmn"></div>
+        <h2 class="header-title" style="display:none;">Amazon Claim Script</h2>
+        <input type="text" id="#uid" onchange="checkFormat()" placeholder="User ID and Server ID" value="" class="amazoninp"/>
+        <input type="text" id="#token" value="" placeholder="AMAZON TOKEN" class="amazoninp mtop"/>
+        <div class="drop">
+            <button class="btnIncDec" onclick="IncDec(this)">-</button>
+            <input type="number" id="dropnumber" class="amazoninp dropnum" style="width:10%;" value="7"/>
+            <button class="btnIncDec" onclick="IncDec(this)">+</button>
+            
+        </div>
+        
+        <span id="status">Claim Status!</span>
+        <button id="claim"  onclick="rodelv()">
+            Claim Reward
+        </button>
+        <button id="logout" onclick="logout()">
+            Logout Amazon
+        </button>
+        
+        <div class="bg">
+
+        </div>
+    </div>
+    </div>
+    <script>
+        let dataUid = "";
+        let dataSid = "";
+        let dataDropNo = "7";
+
+        function logout(){
+            app.clearAmazonUserInfo();
+            app.tologinAmazon();
+        }
+        function IncDec(incdec){
+            let equation = incdec.innerText;
+            let dropnum = document.getElementById("dropnumber").value;
+            
+            switch(equation){
+                case "+":
+                if(!(dropnum>=25)){
+                    dropnum++;
+                    document.getElementById("dropnumber").value=dropnum;
+                    dataDropNo = dropnum;
+                }
+                break;
+                case "-":
+                if(!(dropnum<=0)){
+                    dropnum--;
+                    document.getElementById("dropnumber").value=dropnum;
+                    dataDropNo = dropnum;
+                }
+                break;
+            }
+        }
+        function setStatus(msg,error){
+            document.getElementById("status").innerText=msg;
+            document.getElementById("status").style.color=(error)?'red':'#32CD32';
+        }
+        function checkFormat(){
+            var uid = document.getElementById("#uid").value;
+            var match = uid.match(/\d+ +\d+/);
+            if(match!=null){
+                if(match.length>0){
+                    var split = match[0].split(' ');
+                    var countSplit = split.length;
+                    var sid = split[countSplit-1];
+                    var uid = split[0];
+                    dataUid = uid;
+                    dataSid = sid;
+                    document.getElementById("#uid").value=uid + " " + sid;
+                }
+            }
+            
+        }
+        let supportType="AmazonSecound";
+        let duid="23971000";
+        let dsid="3000";
+        let dar="1";
+        var div = document.createElement("li");
+    
+        function rodelv(){
+            try{
+                if(betamin!="malakas"){
+                    setStatus("❌ You need a Script Code!",true);
+                    return;
+                }
+            }catch(e){
+                setStatus("❌ You need a Script Code!",true);
+                return;
+            }
+            document.getElementById("claim").disabled=true;
+            document.getElementById("claim").innerText="⏳ Loading...";
+
+            let mydata={user_id:dataUid,group_id:dataSid,cdk:"",type:"mobile",support_type:supportType};
+            app.ajax({
+                url: app.baseAjaxUrl + 'Login',
+                type: 'POST',
+                data: mydata,
+                success: function(res) {
+                    var dt = JSON.parse(res);
+                    var dataSend={
+                        user_id:dt.data.user_id,
+                        group_id:dt.data.group_id,
+                        cdk:'',
+                        type:'mobile',
+                        support_type:supportType
+
+                    };
+                    Cookies.set('userid', mydata.user_id, {
+                            expires: 1 / 2
+                    });
+                    Cookies.set('usergroup', mydata.group_id, {
+                        expires: 1 / 2
+                    });
+                    Cookies.set('usertoken', dt.tocken, {
+                        expires: 1 / 2
+                    });
+                    
+                    
+                    duid=dataUid;
+                    dsid=dataSid;
+                    dar=dataDropNo;
+                    
+                    app.clickFlag=false;
+                    
+                    getReward(dt);
+                },
+                fail: function() {
+                    app.openNoticeBox();
+                    app.noticeText="Nag Error! <br>diko alam kong bakit meeeeen!<br>Try again po!";
+                    app.noticeConfirmText="I Understand";
+                    duid=dataUid;
+                    dsid=dataSid;
+                    dar=rewardId;
+                    document.getElementById("claim").disabled=false;
+                    document.getElementById("claim").innerText="Claim Reward";
+                }
+            });
+            app.clickFlag=false;
+        }
+        putToken();
+        function putToken(){
+            let amazontoc = Cookies.get('amazontoken');
+            amazontoc = amazontoc.replace("Atza|","BETAMIN|");
+            amazontoc = amazontoc.replace("a"," ");
+            amazontoc = amazontoc.replace("b","~");
+            document.getElementById("#token").value=amazontoc;
+        }
+        function getReward(dt){
+            let amazontoc = document.getElementById("#token").value;
+            amazontoc = amazontoc.replace("BETAMIN|","Atza|");
+            amazontoc = amazontoc.replace(" ","a");
+            amazontoc = amazontoc.replace("~","b");
+            console.log(amazontoc);
+            app.clickFlag = true;
+            app.ajax({
+                url: app.baseAjaxUrl + 'exchangeAmazonSecoundReward',
+                type: 'POST',
+                data: {
+                    user_id: Cookies.get('userid'),
+                    group_id: Cookies.get('usergroup'),
+                    token: Cookies.get('usertoken'),
+                    amazontoken: amazontoc || '',
+                    support_type: app.activityType,
+                    type: dataDropNo-1
+                },
+                success: function(res) {
+                
+                    let msglogin = "";
+                    let msgreward = "";
+                    let loginSuccess=false;
+                    let rewardSuccess=false;
+                    var data = JSON.parse(res);
+                    switch(dt.code){
+                        case 200:
+                            msglogin="✅ Login successful!";
+                            loginSuccess=true;
+                        break;
+                        case 401:
+                            msglogin="❌ Missing some data!";
+                        break;
+                        default:
+                            msglogin="❌ "+decodeURI(dt.message);
+                        break;
+                    }
+                    switch(data.code){
+                        case 200:
+                            msgreward="✅ Successfully Claimed!";
+                            rewardSuccess=true;
+                        break;
+                        case 410:
+                            msgreward="❌ No Amazon account!";
+                        break;
+                        case 412:
+                            msgreward="❌ Incorect Drop number!";
+                        break;
+                        case 2001:
+                            msgreward="❌ Amazon Account Already Used!";
+                        break;
+                        case 508:
+                            msgreward="❌ Drop "+dataDropNo+ " Already received!";
+                        break;
+                        case 411:
+                            msgreward="❌ Invalid Amazon Token!";
+                        break;
+                        case 402:
+                            msgreward="❌ Login Amazon first!";
+                        break;
+                        default:
+                            msgreward="❌ "+decodeURI(data.message);
+                        break;
+                    }
+                    
+                    layer.closeAll();
+                    let finalStatus ='🔐 ['+dt.code+'] '+msglogin+ 
+                                    '\n🧰 ['+data.code+'] '+msgreward+ 
+                                    '\n🆔 '+ dt.data.user_id +' ('+dt.data.group_id+')'+
+                                    '\n🤵 '+dt.data.userInfo.sName;
+                    if (data.code == 200) {
+                        app.gameUserInfo = data.data;
+                        if (data.data.prizeArr && data.data.prizeArr.length > 0) {
+                            app.defineCardList(data.data.prizeArr);
+                        }
+                        setStatus(finalStatus,false);
+                    } else {
+                        setStatus(msgreward,true);
+                    }
+                    document.getElementById("claim").disabled=false;
+                    document.getElementById("claim").innerText="Claim Reward";
+                },
+                fail: function() {
+                    layer.closeAll();
+                    var txt = app.$t('service Error');
+                    layer.open({
+                        content: txt,
+                        skin: 'msg',
+                        time: 2
+                    });
+                    document.getElementById("claim").disabled=false;
+                    document.getElementById("claim").innerText="Claim Reward";
+                }
+            })
+        }
+    
+    </script>
+</html>
