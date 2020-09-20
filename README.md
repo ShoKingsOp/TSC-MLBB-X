@@ -35,6 +35,15 @@ TSC MLBB X is a tool developed to help you achieve all the existing and upcoming
   <li>Error accessing available tools - The app now has a verified and non-verified membership system, if you can't access a specific tool, it means that your account is currently not verified by the developer</li>
 </ul>
 
+#  What's New in Version 3.7
+<ul>
+<li>Minor bugs and errors fixed on account section</li>
+<li>Source codes minified and encrypted</li>
+<li>Updated and fixed create amazon prime tool's bot</li>
+<li>Updated amazon drop reward booster tool</li>
+<li>Activated application for booster button on account section</li>
+</ul>
+
 # What's New in Version 3.6
 <ul>
   <li>Minor bug fixes for common bugs</li>
