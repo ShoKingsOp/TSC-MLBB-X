@@ -35,7 +35,7 @@ TSC MLBB X is a tool developed to help you achieve all the existing and upcoming
   <li>Error accessing available tools - The app now has a verified and non-verified membership system, if you can't access a specific tool, it means that your account is currently not verified by the developer</li>
 </ul>
 
-# What's New in Version 3.8
+# What's New in Version 4.0
 <ul>
 <li>Minor bugs and errors fixed on account section</li>
 <li>Fixed error retrieving installation code on Android 10+ devices</li>
